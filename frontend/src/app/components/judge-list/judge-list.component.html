@@ -1,0 +1,59 @@
+<div class="row mb-4">
+  <div class="col-md-8">
+    <h2>Judges List</h2>
+  </div>
+  <div class="col-md-4 text-end">
+    <a routerLink="/judges/add" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add New Judge
+    </a>
+  </div>
+</div>
+
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+
+<div class="row">
+  <div *ngFor="let judge of judges" class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center mb-3">
+          <div class="me-3">
+            <img *ngIf="judge.profilePictureUrl" [src]="judge.profilePictureUrl" class="rounded-circle" width="60" height="60" alt="Profile Picture">
+            <div *ngIf="!judge.profilePictureUrl" class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <i class="fas fa-user fa-2x"></i>
+            </div>
+          </div>
+          <div>
+            <h5 class="card-title mb-0">{{ judge.name }}</h5>
+            <span class="badge badge-exp">{{ experienceLevelLabels[judge.experienceLevel] }}</span>
+          </div>
+        </div>
+        
+        <p class="card-text">
+          <strong>Specialization:</strong> {{ judge.fieldSpecialization }}
+        </p>
+        
+        <p class="card-text">
+          <i class="fas fa-envelope me-2"></i> {{ judge.email }}<br>
+          <i class="fas fa-phone me-2"></i> {{ judge.phone }}
+        </p>
+        
+        <div class="d-flex justify-content-end mt-3">
+          <button class="btn btn-sm btn-outline-primary btn-action" (click)="editJudge(judge.id!)">
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteJudge(judge.id!)">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="judges.length === 0" class="col-12 text-center my-5">
+    <div class="alert alert-info">
+      <i class="fas fa-info-circle me-2"></i> No judges found. Add a new judge to get started.
+    </div>
+  </div>
+</div> 
