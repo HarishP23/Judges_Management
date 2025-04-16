@@ -1,59 +1,128 @@
-<div class="row mb-4">
-  <div class="col-md-8">
-    <h2>Judges List</h2>
-  </div>
-  <div class="col-md-4 text-end">
-    <a routerLink="/judges/add" class="btn btn-primary">
-      <i class="fas fa-plus"></i> Add New Judge
+<div class="container-fluid py-4">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold text-primary mb-0">Judges List</h2>
+      <p class="text-muted small mb-0">Manage your panel of judges</p>
+    </div>
+    <a routerLink="/judges/add" class="btn btn-primary shadow-sm">
+      <i class="fas fa-plus me-2"></i> Add New Judge
     </a>
   </div>
-</div>
 
-<div *ngIf="error" class="alert alert-danger">
-  {{ error }}
-</div>
+  <!-- Alert Section -->
+  <div *ngIf="error" class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+    <div class="d-flex align-items-center">
+      <i class="fas fa-exclamation-circle me-2"></i>
+      <div>{{ error }}</div>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
 
-<div class="row">
-  <div *ngFor="let judge of judges" class="col-md-4 mb-4">
-    <div class="card h-100">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-          <div class="me-3">
-            <img *ngIf="judge.profilePictureUrl" [src]="judge.profilePictureUrl" class="rounded-circle" width="60" height="60" alt="Profile Picture">
-            <div *ngIf="!judge.profilePictureUrl" class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-              <i class="fas fa-user fa-2x"></i>
+  <!-- Judges Grid -->
+  <div class="row g-4">
+    <div *ngFor="let judge of judges" class="col-md-4">
+      <div class="card h-100 shadow-sm hover-shadow transition">
+        <div class="card-body p-4">
+          <!-- Profile Section -->
+          <div class="d-flex align-items-center mb-4">
+            <div class="me-3">
+              <div class="position-relative">
+                <div class="rounded-circle overflow-hidden shadow-sm" style="width: 70px; height: 70px;">
+                  <img *ngIf="judge.profilePictureUrl" [src]="judge.profilePictureUrl" class="w-100 h-100 object-fit-cover" alt="Profile Picture">
+                  <div *ngIf="!judge.profilePictureUrl" class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
+                    <i class="fas fa-user fa-2x text-secondary"></i>
+                  </div>
+                </div>
+                <span class="position-absolute bottom-0 end-0 translate-middle badge rounded-pill bg-primary">
+                  {{ experienceLevelLabels[judge.experienceLevel] }}
+                </span>
+              </div>
+            </div>
+            <div>
+              <h5 class="card-title mb-1 fw-bold">{{ judge.name }}</h5>
+              <p class="text-muted small mb-0">{{ judge.fieldSpecialization }}</p>
             </div>
           </div>
-          <div>
-            <h5 class="card-title mb-0">{{ judge.name }}</h5>
-            <span class="badge badge-exp">{{ experienceLevelLabels[judge.experienceLevel] }}</span>
+          
+          <!-- Contact Information -->
+          <div class="card-text mb-4">
+            <div class="d-flex align-items-center mb-2">
+              <div class="icon-circle bg-primary bg-opacity-10 text-primary me-3">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <span class="text-muted">{{ judge.email }}</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="icon-circle bg-primary bg-opacity-10 text-primary me-3">
+                <i class="fas fa-phone"></i>
+              </div>
+              <span class="text-muted">{{ judge.phone }}</span>
+            </div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-sm btn-outline-primary btn-action" (click)="editJudge(judge.id!)">
+              <i class="fas fa-edit me-1"></i> Edit
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteJudge(judge.id!)">
+              <i class="fas fa-trash me-1"></i> Delete
+            </button>
           </div>
         </div>
-        
-        <p class="card-text">
-          <strong>Specialization:</strong> {{ judge.fieldSpecialization }}
-        </p>
-        
-        <p class="card-text">
-          <i class="fas fa-envelope me-2"></i> {{ judge.email }}<br>
-          <i class="fas fa-phone me-2"></i> {{ judge.phone }}
-        </p>
-        
-        <div class="d-flex justify-content-end mt-3">
-          <button class="btn btn-sm btn-outline-primary btn-action" (click)="editJudge(judge.id!)">
-            <i class="fas fa-edit"></i> Edit
-          </button>
-          <button class="btn btn-sm btn-outline-danger" (click)="deleteJudge(judge.id!)">
-            <i class="fas fa-trash"></i> Delete
-          </button>
+      </div>
+    </div>
+    
+    <!-- Empty State -->
+    <div *ngIf="judges.length === 0" class="col-12">
+      <div class="text-center py-5">
+        <div class="card shadow-sm d-inline-block">
+          <div class="card-body p-4">
+            <div class="icon-circle bg-info bg-opacity-10 text-info mb-3 mx-auto">
+              <i class="fas fa-info-circle fa-2x"></i>
+            </div>
+            <h5 class="mb-2">No Judges Found</h5>
+            <p class="text-muted mb-0">Add a new judge to get started</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  
-  <div *ngIf="judges.length === 0" class="col-12 text-center my-5">
-    <div class="alert alert-info">
-      <i class="fas fa-info-circle me-2"></i> No judges found. Add a new judge to get started.
-    </div>
-  </div>
-</div> 
+</div>
+
+<style>
+.hover-shadow {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.hover-shadow:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.transition {
+  transition: all 0.3s ease;
+}
+
+.btn-action {
+  transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+  transform: translateY(-1px);
+}
+
+.icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+</style> 

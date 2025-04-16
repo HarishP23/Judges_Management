@@ -1,91 +1,88 @@
-<div class="card">
-  <div class="card-header bg-primary text-white">
+<div class="card shadow rounded-4 p-3">
+  <div class="card-header bg-primary text-white text-center rounded-top-4">
     <h3 class="mb-0">{{ isEditMode ? 'Edit Judge' : 'Add New Judge' }}</h3>
   </div>
+
   <div class="card-body">
-    <div *ngIf="error" class="alert alert-danger">
-      {{ error }}
-    </div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
     <form [formGroup]="judgeForm" (ngSubmit)="onSubmit()">
       <div class="row mb-3">
         <div class="col-md-8">
           <!-- Name -->
-          <div class="mb-3">
-            <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+          <div class="form-floating mb-3">
             <input 
               type="text" 
               id="name" 
               formControlName="name" 
               class="form-control"
+              placeholder="Name"
               [ngClass]="{'is-invalid': judgeForm.get('name')?.invalid && judgeForm.get('name')?.touched}"
             >
-            <div *ngIf="judgeForm.get('name')?.invalid && judgeForm.get('name')?.touched" class="error-feedback">
+            <label for="name">Name <span class="text-danger">*</span></label>
+            <div *ngIf="judgeForm.get('name')?.invalid && judgeForm.get('name')?.touched" class="invalid-feedback">
               <div *ngIf="judgeForm.get('name')?.errors?.['required']">Name is required</div>
               <div *ngIf="judgeForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters</div>
             </div>
           </div>
 
           <!-- Email -->
-          <div class="mb-3">
-            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+          <div class="form-floating mb-3">
             <input 
               type="email" 
               id="email" 
               formControlName="email" 
               class="form-control"
+              placeholder="Email"
               [ngClass]="{'is-invalid': judgeForm.get('email')?.invalid && judgeForm.get('email')?.touched}"
             >
-            <div *ngIf="judgeForm.get('email')?.invalid && judgeForm.get('email')?.touched" class="error-feedback">
+            <label for="email">Email <span class="text-danger">*</span></label>
+            <div *ngIf="judgeForm.get('email')?.invalid && judgeForm.get('email')?.touched" class="invalid-feedback">
               <div *ngIf="judgeForm.get('email')?.errors?.['required']">Email is required</div>
               <div *ngIf="judgeForm.get('email')?.errors?.['email']">Please enter a valid email address</div>
             </div>
           </div>
 
           <!-- Phone -->
-          <div class="mb-3">
-            <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+          <div class="form-floating mb-3">
             <input 
               type="tel" 
               id="phone" 
               formControlName="phone" 
               class="form-control"
+              placeholder="Phone"
               [ngClass]="{'is-invalid': judgeForm.get('phone')?.invalid && judgeForm.get('phone')?.touched}"
-              placeholder="e.g. +1234567890"
             >
-            <div *ngIf="judgeForm.get('phone')?.invalid && judgeForm.get('phone')?.touched" class="error-feedback">
+            <label for="phone">Phone <span class="text-danger">*</span></label>
+            <div *ngIf="judgeForm.get('phone')?.invalid && judgeForm.get('phone')?.touched" class="invalid-feedback">
               <div *ngIf="judgeForm.get('phone')?.errors?.['required']">Phone number is required</div>
               <div *ngIf="judgeForm.get('phone')?.errors?.['pattern']">Please enter a valid phone number</div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 text-center">
           <!-- Profile Picture -->
-          <div class="mb-3 text-center">
-            <label class="form-label d-block">Profile Picture</label>
-            <div class="mb-2">
-              <div *ngIf="imagePreview" class="mb-2 mx-auto" style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%;">
-                <img [src]="imagePreview" class="img-fluid" alt="Profile Preview" style="width: 100%; height: 100%; object-fit: cover;">
-              </div>
-              <div *ngIf="!imagePreview" class="mx-auto rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 150px; height: 150px;">
-                <i class="fas fa-user fa-4x"></i>
-              </div>
+          <label class="form-label d-block">Profile Picture</label>
+          <div class="mb-2 mx-auto rounded-circle border" style="width: 150px; height: 150px; overflow: hidden;">
+            <img *ngIf="imagePreview" [src]="imagePreview" class="img-fluid" alt="Profile Preview" style="width: 100%; height: 100%; object-fit: cover;">
+            <div *ngIf="!imagePreview" class="bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 100%; height: 100%;">
+              <i class="fas fa-user fa-4x"></i>
             </div>
-            
-            <div class="d-grid">
-              <label for="profilePicture" class="btn btn-outline-secondary">
-                <i class="fas fa-upload me-2"></i> Choose Image
-              </label>
-              <input 
-                type="file" 
-                id="profilePicture" 
-                accept="image/*" 
-                class="d-none"
-                (change)="onImageSelected($event)"
-              >
-            </div>
-            <small class="text-muted d-block mt-1">Recommended: Square image, max 5MB</small>
+          </div>
+
+          <div class="d-grid">
+            <label for="profilePicture" class="btn btn-outline-secondary">
+              <i class="fas fa-upload me-2"></i> Choose Image
+            </label>
+            <input 
+              type="file" 
+              id="profilePicture" 
+              accept="image/*" 
+              class="d-none"
+              (change)="onImageSelected($event)"
+            >
+            <small class="text-muted d-block mt-2">Recommended: Square image, max 5MB</small>
           </div>
         </div>
       </div>
@@ -101,11 +98,12 @@
               class="form-select"
               [ngClass]="{'is-invalid': judgeForm.get('experienceLevel')?.invalid && judgeForm.get('experienceLevel')?.touched}"
             >
+              <option value="" disabled selected>Select experience</option>
               <option *ngFor="let level of experienceLevels" [value]="level">
                 {{ level === 'NOVICE' ? '0 - 1 years' : level === 'INTERMEDIATE' ? '1 - 5 years' : '5+ years' }}
               </option>
             </select>
-            <div *ngIf="judgeForm.get('experienceLevel')?.invalid && judgeForm.get('experienceLevel')?.touched" class="error-feedback">
+            <div *ngIf="judgeForm.get('experienceLevel')?.invalid && judgeForm.get('experienceLevel')?.touched" class="invalid-feedback">
               <div *ngIf="judgeForm.get('experienceLevel')?.errors?.['required']">Experience level is required</div>
             </div>
           </div>
@@ -113,30 +111,30 @@
 
         <div class="col-md-6">
           <!-- Field Specialization -->
-          <div class="mb-3">
-            <label for="fieldSpecialization" class="form-label">Field Specialization <span class="text-danger">*</span></label>
+          <div class="form-floating mb-3">
             <input 
               type="text" 
               id="fieldSpecialization" 
               formControlName="fieldSpecialization" 
               class="form-control"
+              placeholder="Field Specialization"
               [ngClass]="{'is-invalid': judgeForm.get('fieldSpecialization')?.invalid && judgeForm.get('fieldSpecialization')?.touched}"
-              placeholder="e.g. Dance, Music, Drama"
             >
-            <div *ngIf="judgeForm.get('fieldSpecialization')?.invalid && judgeForm.get('fieldSpecialization')?.touched" class="error-feedback">
+            <label for="fieldSpecialization">Field Specialization <span class="text-danger">*</span></label>
+            <div *ngIf="judgeForm.get('fieldSpecialization')?.invalid && judgeForm.get('fieldSpecialization')?.touched" class="invalid-feedback">
               <div *ngIf="judgeForm.get('fieldSpecialization')?.errors?.['required']">Field specialization is required</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="d-flex justify-content-between mt-4">
-        <a routerLink="/judges" class="btn btn-secondary">
-          <i class="fas fa-arrow-left me-1"></i> Back to List
+      <div class="d-flex flex-wrap justify-content-between mt-4 gap-2">
+        <a routerLink="/judges" class="btn btn-outline-secondary flex-grow-1">
+          <i class="fas fa-arrow-left me-2"></i> Back to List
         </a>
         <button 
           type="submit" 
-          class="btn btn-primary" 
+          class="btn btn-primary flex-grow-1"
           [disabled]="judgeForm.invalid || imageUploading">
           <i class="fas" [ngClass]="isEditMode ? 'fa-save' : 'fa-plus-circle'"></i>
           {{ isEditMode ? ' Update Judge' : ' Create Judge' }}
@@ -144,4 +142,4 @@
       </div>
     </form>
   </div>
-</div> 
+</div>
