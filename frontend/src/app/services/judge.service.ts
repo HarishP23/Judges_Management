@@ -10,7 +10,7 @@ import { ApiResponse } from '../models/api-response.model';
   providedIn: 'root'
 })
 export class JudgeService {
-  private apiUrl = 'http://localhost:8080/api/judges';
+  private apiUrl = 'http://172.10.8.61:8080/judges-management-0.0.1-SNAPSHOT/api/judges';
 
   constructor(private http: HttpClient) { }
 
