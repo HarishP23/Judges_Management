@@ -88,6 +88,30 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			
+			<!-- Plugin to copy frontend files to backend -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.3.1</version>
+				<executions>
+					<execution>
+						<id>copy-frontend</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${project.build.finalName}/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>../frontend/dist/judges-management-frontend</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
