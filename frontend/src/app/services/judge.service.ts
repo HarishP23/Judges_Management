@@ -10,10 +10,24 @@ import { ApiResponse } from '../models/api-response.model';
   providedIn: 'root'
 })
 export class JudgeService {
-  // Use relative path so it works under server.servlet.context-path (/trial)
-  private apiUrl = '/api/judges';
+  // Build API URL from <base href> so it always targets /<context>/api/judges
+  private readonly apiUrl: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    // Prefer context from current path (works even if base href is cached/incorrect)
+    const pathSegments = window.location.pathname.split('/').filter(Boolean);
+    const context = pathSegments.length > 0 ? `/${pathSegments[0]}` : '';
+
+    // Fallback to <base href> if context is empty
+    let base = context;
+    if (!base) {
+      const baseEl = document.getElementsByTagName('base')[0];
+      const baseHref = (baseEl && baseEl.getAttribute('href')) ? baseEl.getAttribute('href') as string : '/';
+      base = baseHref.endsWith('/') ? baseHref.slice(0, -1) : baseHref;
+    }
+
+    this.apiUrl = `${base}/api/judges`;
+  }
 
   getAllJudges(): Observable<Judge[]> {
     return this.http.get<ApiResponse<Judge[]>>(this.apiUrl)
