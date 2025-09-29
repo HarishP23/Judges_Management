@@ -28,21 +28,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<exclusions>
-				<!-- Exclude the embedded Tomcat server -->
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-tomcat</artifactId>
 				</exclusion>
-				<!-- Exclude the default logging framework to use WildFly's logging -->
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 
-		<!-- Add the Servlet API but mark it as 'provided'.
-             This makes it available for compiling but excludes it from the final WAR file. -->
+		<!-- Provided by container (WildFly) at runtime -->
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>

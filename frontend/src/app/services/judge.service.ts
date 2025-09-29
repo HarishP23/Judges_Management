@@ -10,7 +10,8 @@ import { ApiResponse } from '../models/api-response.model';
   providedIn: 'root'
 })
 export class JudgeService {
-  private apiUrl = '/judges/api/judges';
+  // Use relative path so it works under server.servlet.context-path (/trial)
+  private apiUrl = '/api/judges';
 
   constructor(private http: HttpClient) { }
 

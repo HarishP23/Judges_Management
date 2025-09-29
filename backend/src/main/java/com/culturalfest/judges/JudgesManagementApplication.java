@@ -15,11 +15,10 @@ public class JudgesManagementApplication extends SpringBootServletInitializer {
 		SpringApplication.run(JudgesManagementApplication.class, args);
 	}
 
-	// This method correctly configures the application for WAR deployment
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(JudgesManagementApplication.class);
-	}
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(JudgesManagementApplication.class);
+    }
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
